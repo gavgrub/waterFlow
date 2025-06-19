@@ -1,11 +1,111 @@
 //TODO: have this read the folders instead so I don't have to put in everything individually
 
 // List of river GeoJSON files
-// The index denotes the degree of tributary
 const rivers = [
-    ['geodata/South Saskatchewan River.geojson',],
-    ['geodata/Red Deer River.geojson', 'geodata/Bow River.geojson', 'geodata/Oldman River.geojson'],
-    ['geodata/Saint Mary River.geojson', 'geodata/Belly River.geojson', 'geodata/Castle River.geojson'],
+  {
+    folder: '1',
+    rivers: [
+      {
+        name: 'South Saskatchewan River',
+        wiki: 'https://en.wikipedia.org/wiki/South_Saskatchewan_River'
+      }
+    ]
+  },
+  {
+    folder: '2',
+    rivers: [
+      {
+        name: 'Red Deer River',
+        wiki: 'https://en.wikipedia.org/wiki/Red_Deer_River'
+      },
+      {
+        name: 'Bow River 1',
+        wiki: 'https://en.wikipedia.org/wiki/Bow_River'
+      },
+      {
+        name: 'Bow River 2',
+        wiki: 'https://en.wikipedia.org/wiki/Bow_River'
+      },
+      {
+        name: 'Bow River 3',
+        wiki: 'https://en.wikipedia.org/wiki/Bow_River'
+      },
+      {
+        name: 'Oldman River',
+        wiki: 'https://en.wikipedia.org/wiki/Oldman_River'
+      }
+    ]
+  },
+  {
+    folder: '3',
+    rivers: [
+      {
+        name: 'Saint Mary River',
+        wiki: 'https://en.wikipedia.org/wiki/St._Mary_River_(Alberta–Montana)'
+      },
+      {
+        name: 'Belly River',
+        wiki: 'https://en.wikipedia.org/wiki/Belly_River'
+      },
+      {
+        name: 'Castle River',
+        wiki: 'https://www.albertaparks.ca/parks/south/castle-pp/information-facilities/camping/castle-river-bridge/'
+      },
+      {
+        name: 'Willow Creek',
+        wiki: 'https://www.albertaparks.ca/parks/south/willow-creek-pp/'
+      },
+      {
+        name: 'Livingstone River',
+        wiki: 'https://www.albertaparks.ca/parks/south/livingstone-falls-pra/information-facilities/camping/livingstone-falls/'
+      },
+      {
+        name: 'Crowsnest River 1',
+        wiki: 'https://en.wikipedia.org/wiki/Crowsnest_River'
+      },
+      {
+        name: 'Crowsnest River 2',
+        wiki: 'https://en.wikipedia.org/wiki/Crowsnest_River'
+      },
+      {
+        name: 'Little Bow River 1',
+        wiki: 'https://en.wikipedia.org/wiki/Little_Bow_River'
+      },
+      {
+        name: 'Little Bow River 2',
+        wiki: 'https://en.wikipedia.org/wiki/Little_Bow_River'
+      },
+      {
+        name: 'Little Bow River 3',
+        wiki: 'https://en.wikipedia.org/wiki/Little_Bow_River'
+      },
+      {
+        name: 'Kananaskis River',
+        wiki: 'https://en.wikipedia.org/wiki/Kananaskis_River'
+      },
+      {
+        name: 'Elbow River',
+        wiki: 'https://en.wikipedia.org/wiki/Elbow_River'
+      },
+      {
+        name: 'Highwood River',
+        wiki: 'https://en.wikipedia.org/wiki/Highwood_River'
+      }
+    ]
+  },
+  {
+    folder: '4',
+    rivers: [
+      {
+        name: 'Sheep River',
+        wiki: 'https://en.wikipedia.org/wiki/Sheep_River_(Alberta)'
+      },
+      {
+        name: 'Waterton River',
+        wiki: 'https://en.wikipedia.org/wiki/Waterton_River'
+      }
+    ]
+  }
 ];
 
 // Colors
@@ -32,43 +132,54 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 let geoJsonLayers = [];
 
-// This function loads GeoJSON data based on the index of the rivers array
+// This function loads and displays GeoJSON river data up to a given index level
 async function loadGeoJSON(index) {
     try {
-        // Remove previous layers
+        // Clear previously loaded river layers from the map
         geoJsonLayers.forEach(layer => map.removeLayer(layer));
         geoJsonLayers = [];
 
-        // Iterate through the rivers array up to the specified index
+        // Loop through each folder level up to the selected index
         for (let i = 0; i <= index; i++) {
+            const { folder, rivers: riverList } = rivers[i];
 
-            // Determine the color of the river
+            // Interpolate color for this level (for gradient effect)
             const t = index === 0 ? 0 : i / index;  // avoid division by zero
             const interpolatedColor = interpolateColor(startColor, endColor, t);
 
-            for (let j = 0; j < rivers[i].length; j++) {
-                const url = rivers[i][j];
+            // Loop through each river in the current folder level
+            for (const river of riverList) {
+                // Construct the relative file path to the GeoJSON file
+                const url = `geodata/rivers/${folder}/${river.name}.geojson`;
+
+                // Fetch the GeoJSON data for the river
                 const response = await fetch(url);
                 if (!response.ok) throw new Error(`Failed to load: ${url}`);
                 const data = await response.json();
 
+                // Create and style the GeoJSON layer
                 const layer = L.geoJSON(data, {
                     style: feature => ({
                         color: interpolatedColor,
                         weight: 3
                     }),
                     onEachFeature: (feature, layer) => {
-                        if (feature.properties?.description) {
-                            layer.bindPopup(feature.properties.description);
-                        }
+                        // Bind a popup with river name and Wikipedia link
+                        const popupContent = `
+                            <strong>${river.name.replace(/\s\d+$/, '')}</strong><br>
+                            <a href="${river.wiki}" target="_blank">Wikipedia</a>
+                        `;
+                        layer.bindPopup(popupContent);
                     }
                 }).addTo(map);
 
+                // Store the layer for future removal
                 geoJsonLayers.push(layer);
             }
         }
 
     } catch (err) {
+        // Log any errors that occur during loading
         console.error(err);
     }
 }

@@ -3,6 +3,18 @@ html, body {
     padding: 0;
     height: 100%;
     color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 90%;
+}
+
+a {
+    text-decoration: none;
+    color: #0075FF;
+}
+
+a:hover {
+    color: #0075FF;
+    text-decoration: underline;
 }
 
 .container {
@@ -12,7 +24,7 @@ html, body {
 }
 
 .sidebar {
-    width: 300px;
+    width: 280px;
     background-color: #212121;
     padding: 20px;
 }
