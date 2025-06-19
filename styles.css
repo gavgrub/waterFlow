@@ -9,11 +9,11 @@ html, body {
 
 a {
     text-decoration: none;
-    color: #0075FF;
+    color: #3366CC;
 }
 
 a:hover {
-    color: #0075FF;
+    color: #3366CC;
     text-decoration: underline;
 }
 

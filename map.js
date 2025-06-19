@@ -124,11 +124,40 @@ function interpolateColor(fromColor, toColor, t) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-// Create the map and a tile layer
-const map = L.map('map').setView([51.146, -108.458], 6);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// Base layers
+const lightTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+});
+
+const darkTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+});
+
+const satelliteTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  attribution: '&copy; Esri, Maxar, Earthstar Geographics'
+});
+
+const defaultTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
+});
+
+// Initialize map with one of the base layers
+const map = L.map('map').setView([51.146, -108.458], 6);
+lightTiles.addTo(map);
+
+// Layer control UI
+const baseMaps = {
+  "Default": defaultTiles,
+  "Light": lightTiles,
+  "Dark": darkTiles,
+  "Satellite": satelliteTiles
+};
+
+L.control.layers(baseMaps).addTo(map);
 
 let geoJsonLayers = [];
 
