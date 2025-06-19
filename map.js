@@ -159,6 +159,28 @@ const baseMaps = {
 
 L.control.layers(baseMaps).addTo(map);
 
+// TODO: Make Better
+// Add the watershed to the map
+let ssrsbLayer;
+
+map.createPane('background');
+map.getPane('background').style.zIndex = 200;
+
+fetch('geodata/watersheds/SSRSB.geojson')
+  .then(res => res.json())
+  .then(data => {
+    ssrsbLayer = L.geoJSON(data, {
+      pane: 'background',
+      interactive: false,
+      style: { color: '#222', weight: 2, fillOpacity: 0.3 }
+    });
+
+    // Add initially if checkbox is checked
+    if (document.getElementById('watershedToggle').checked) {
+      ssrsbLayer.addTo(map);
+    }
+  });
+
 let geoJsonLayers = [];
 
 // This function loads and displays GeoJSON river data up to a given index level
@@ -221,5 +243,14 @@ document.getElementById('geoSlider').addEventListener('input', e => {
   const val = parseInt(e.target.value, 10) - 1;  // slider value 1-based, convert to 0-based index
   if (val >= 0 && val < rivers.length) {
     loadGeoJSON(val);
+  }
+});
+
+document.getElementById('watershedToggle').addEventListener('change', function () {
+  if (!ssrsbLayer) return;
+  if (this.checked) {
+    ssrsbLayer.addTo(map);
+  } else {
+    map.removeLayer(ssrsbLayer);
   }
 });
