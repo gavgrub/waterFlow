@@ -13,32 +13,60 @@
 </head>
 
 <body>
+    <!-- Popups -->
+    <div id="about" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeAbout()">&times;</span>
+            <h2>About</h2>
+            <p>SSR Water Flow by <a href="https://github.com/gavgrub" target="_blank">Gavin Grubert</a> is a website which allows users to view information about the South Saskatchewan River, and more broadly, the South Saskatchewan River Basin.</p>
+            <p>This project was made for the <a href="https://seawa.ca/" target="_blank">South East Alberta Watershed Alliance (SEAWA)</a> to help visualize the watershed and its tributaries.</p>
+        </div>
+    </div>
+
+    <div id="acknowledgements" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeAcknowledgements()">&times;</span>
+            <h2>Acknowledgements</h2>
+            <ul>
+                <li><a href="https://seawa.ca/" target="_blank">South East Alberta Watershed Alliance (SEAWA)</a>: the organization for which I made this project.</li>
+                <li><a href="https://waterwaymap.org/#map=2/0/0" target="_blank">WaterwayMap</a>, a resource which provides data on rivers and creeks.</li>
+                <li><a href="https://open.canada.ca/data/en/dataset/0c121878-ac23-46f5-95df-eb9960753375" target="_blank">Water Survey of Canada</a>, a government organization which provides standardized water resource data and information in Canada.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="legal" class="popup">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeLegal()">&times;</span>
+            <h2>Legal</h2>
+            <p>SSR Water Flow by <a href="https://github.com/gavgrub" target="_blank">Gavin Grubert</a> is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</a></p>
+        </div>
+    </div>
+
+    <!-- Main Container -->
     <div class="container">
 
         <!-- SideBar -->
         <div class="sidebar">
             <h2>South Saskatchewan River</h2>
-            <hr>
-
-            <p>Display of the SSR and it's tributaries.</p>
-            <p>This project is a work in progress, new features to be added soon.</p>
+            <button onclick="openAbout()">About</button>
+            <button onclick="openAcknowledgements()">Acknowledgements</button>
+            <button onclick="openLegal()">Legal</button>
             
             <h3>Display Options</h3>
             <p><label for="geoSlider">Tributary Degree:</label><input type="range" id="geoSlider" min="1" max="4" step="1" value="1"></p>
             <p><label>Display Watershed<input type="checkbox" id="watershedToggle"></label></p>
-
-            <h3>Acknowledgements</h3>
-            <p><a href="https://seawa.ca/" target="_blank">SEAWA</a>, the organization for which I made this project.</p>
-            <p><a href="https://waterwaymap.org/#map=2/0/0" target="_blank">WaterwayMap</a>, where I found the geographic information for the rivers.</p>
-            <p><a href="https://open.canada.ca/data/en/dataset/0c121878-ac23-46f5-95df-eb9960753375" target="_blank">Water Survey of Canada</a>, where I found the geographic information for the watershed.</p>
-            <p>SSR Water Flow by <a href="https://github.com/gavgrub" target="_blank">Gavin Grubert</a> is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+            <p><label>Display Settlements<input type="checkbox" id="settlementToggle"></label></p>
         </div>
 
-        <!-- This Code  -->
+        <!-- Setup the map  -->
         <div id="map"></div>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script src="map.js"></script>
 
     </div>
+
+    <!-- Run Scripts -->
+    <script src="popup.js"></script>
 </body>
 </html>

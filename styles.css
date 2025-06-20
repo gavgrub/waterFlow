@@ -3,17 +3,18 @@ html, body {
     padding: 0;
     height: 100%;
     color: #fff;
+    background-color: #212121;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 90%;
 }
 
 a {
     text-decoration: none;
-    color: #3366CC;
+    color: #58a6ff;
 }
 
 a:hover {
-    color: #3366CC;
+    color: #58a6ff;
     text-decoration: underline;
 }
 
@@ -25,11 +26,44 @@ a:hover {
 
 .sidebar {
     width: 280px;
-    background-color: #212121;
     padding: 20px;
 }
 
 #map {
     flex: 1;
     height: 100%;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  background: #212121;
+  margin: 10% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 20px;
+  color: #888;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: white;
 }

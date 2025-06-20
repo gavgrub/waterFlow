@@ -33,6 +33,10 @@ const rivers = [
       {
         name: 'Oldman River',
         wiki: 'https://en.wikipedia.org/wiki/Oldman_River'
+      },
+      {
+        name: 'Seven Persons Creek',
+        wiki: 'https://www.tourismmedicinehat.com/features/paddle-seven-persons'
       }
     ]
   },
@@ -90,6 +94,10 @@ const rivers = [
       {
         name: 'Highwood River',
         wiki: 'https://en.wikipedia.org/wiki/Highwood_River'
+      },
+      {
+        name: 'Ross Creek',
+        wiki: 'https://www.albertadiscoverguide.com/site.cfm?grid=F4&number=20'
       }
     ]
   },
@@ -125,39 +133,17 @@ function interpolateColor(fromColor, toColor, t) {
 }
 
 // Base layers
-const lightTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
-  subdomains: 'abcd',
-  maxZoom: 19
-});
-
-const darkTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
-  subdomains: 'abcd',
-  maxZoom: 19
-});
-
-const satelliteTiles = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-  attribution: '&copy; Esri, Maxar, Earthstar Geographics'
-});
-
-const defaultTiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-});
-
+const whiteBase = L.tileLayer(
+  'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+  {
+    attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }
+);
 // Initialize map with one of the base layers
 const map = L.map('map').setView([51.146, -108.458], 6);
-lightTiles.addTo(map);
-
-// Layer control UI
-const baseMaps = {
-  "Default": defaultTiles,
-  "Light": lightTiles,
-  "Dark": darkTiles,
-  "Satellite": satelliteTiles
-};
-
-L.control.layers(baseMaps).addTo(map);
+whiteBase.addTo(map);
 
 // TODO: Make Better
 // Add the watershed to the map
@@ -166,7 +152,7 @@ let ssrsbLayer;
 map.createPane('background');
 map.getPane('background').style.zIndex = 200;
 
-fetch('geodata/watersheds/SSRSB.geojson')
+fetch('geodata/SSRB.geojson')
   .then(res => res.json())
   .then(data => {
     ssrsbLayer = L.geoJSON(data, {
@@ -178,6 +164,25 @@ fetch('geodata/watersheds/SSRSB.geojson')
     // Add initially if checkbox is checked
     if (document.getElementById('watershedToggle').checked) {
       ssrsbLayer.addTo(map);
+    }
+  });
+
+// Add the cities to the map
+let citiesLayer;
+
+fetch('geodata/cities.geojson')
+  .then(res => res.json())
+  .then(data => {
+    citiesLayer = L.geoJSON(data, {
+      pointToLayer: function (feature, latlng) {
+        const label = String(feature.properties.name);
+        return L.circleMarker(latlng, {
+          radius: 1,
+        }).bindTooltip(label, { permanent: true, opacity: 0.7 }).openTooltip();
+      }
+    }); 
+    if (document.getElementById('watershedToggle').checked) {
+      citiesLayer.addTo(map);
     }
   });
 
@@ -218,7 +223,7 @@ async function loadGeoJSON(index) {
                         // Bind a popup with river name and Wikipedia link
                         const popupContent = `
                             <strong>${river.name.replace(/\s\d+$/, '')}</strong><br>
-                            <a href="${river.wiki}" target="_blank">Wikipedia</a>
+                            <a href="${river.wiki}" target="_blank">Info</a>
                         `;
                         layer.bindPopup(popupContent);
                     }
@@ -238,7 +243,7 @@ async function loadGeoJSON(index) {
 // Initialize with first file
 loadGeoJSON(0);
 
-// Add event listener to the slider
+// Event Listeners for UI controls
 document.getElementById('geoSlider').addEventListener('input', e => {
   const val = parseInt(e.target.value, 10) - 1;  // slider value 1-based, convert to 0-based index
   if (val >= 0 && val < rivers.length) {
@@ -252,5 +257,14 @@ document.getElementById('watershedToggle').addEventListener('change', function (
     ssrsbLayer.addTo(map);
   } else {
     map.removeLayer(ssrsbLayer);
+  }
+});
+
+document.getElementById('settlementToggle').addEventListener('change', function () {
+  if (!citiesLayer) return;
+  if (this.checked) {
+    citiesLayer.addTo(map);
+  } else {
+    map.removeLayer(citiesLayer);
   }
 });
