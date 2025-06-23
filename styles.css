@@ -67,3 +67,21 @@ a:hover {
 .close-btn:hover {
   color: white;
 }
+
+.collection p:first-child {
+  margin-bottom: 0;
+}
+
+.collection p:last-child {
+  margin-top: 0;
+}
+
+#tributarySlider,
+#watershedSelect {
+  width: 100%;
+}
+
+#settlementToggle,
+#reservoirToggle {
+  vertical-align: middle;
+}

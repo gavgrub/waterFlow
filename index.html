@@ -16,7 +16,7 @@
     <!-- Popups -->
     <div id="about" class="popup">
         <div class="popup-content">
-            <span class="close-btn" onclick="closeAbout()">&times;</span>
+            <span class="close-btn" onclick="closePopup('about')">&times;</span>
             <h2>About</h2>
             <p>SSR Water Flow by <a href="https://github.com/gavgrub" target="_blank">Gavin Grubert</a> is a website which allows users to view information about the South Saskatchewan River, and more broadly, the South Saskatchewan River Basin.</p>
             <p>This project was made for the <a href="https://seawa.ca/" target="_blank">South East Alberta Watershed Alliance (SEAWA)</a> to help visualize the watershed and its tributaries.</p>
@@ -25,7 +25,7 @@
 
     <div id="acknowledgements" class="popup">
         <div class="popup-content">
-            <span class="close-btn" onclick="closeAcknowledgements()">&times;</span>
+            <span class="close-btn" onclick="closePopup('acknowledgements')">&times;</span>
             <h2>Acknowledgements</h2>
             <ul>
                 <li><a href="https://seawa.ca/" target="_blank">South East Alberta Watershed Alliance (SEAWA)</a>: the organization for which I made this project.</li>
@@ -37,7 +37,7 @@
 
     <div id="legal" class="popup">
         <div class="popup-content">
-            <span class="close-btn" onclick="closeLegal()">&times;</span>
+            <span class="close-btn" onclick="closePopup('legal')">&times;</span>
             <h2>Legal</h2>
             <p>SSR Water Flow by <a href="https://github.com/gavgrub" target="_blank">Gavin Grubert</a> is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.</a></p>
         </div>
@@ -49,24 +49,38 @@
         <!-- SideBar -->
         <div class="sidebar">
             <h2>South Saskatchewan River</h2>
-            <button onclick="openAbout()">About</button>
-            <button onclick="openAcknowledgements()">Acknowledgements</button>
-            <button onclick="openLegal()">Legal</button>
-            
+            <button onclick="openPopup('about')">About</button>
+            <button onclick="openPopup('acknowledgements')">Acknowledgements</button>
+            <button onclick="openPopup('legal')">Legal</button>
+
             <h3>Display Options</h3>
-            <p><label for="geoSlider">Tributary Degree:</label><input type="range" id="geoSlider" min="1" max="4" step="1" value="1"></p>
-            <p><label>Display Watershed<input type="checkbox" id="watershedToggle"></label></p>
-            <p><label>Display Settlements<input type="checkbox" id="settlementToggle"></label></p>
+
+            <div class="collection">
+                <p>Tributary Degree:</p>
+                <p><label for="tributarySlider"></label><input type="range" id="tributarySlider" min="1" max="4" step="1" value="1"></p>
+            </div>
+
+            <div class="collection">
+                <p>Watershed:</p>
+                <p><select name="Watershed" id="watershedSelect">
+                    <option value="none">None</option>
+                    <option value="seawaw">SEAWA Watershed</option>
+                    <option value="ssrb">South Saskatchewan River Basin</option>
+                </select></p>
+            </div>
+
+            <p><label>Display Settlements:<input type="checkbox" id="settlementToggle"></label></p>
+            <p><label>Display Reservoirs:<input type="checkbox" id="reservoirToggle"></label></p>
         </div>
 
         <!-- Setup the map  -->
         <div id="map"></div>
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-        <script src="map.js"></script>
+        <script src="scripts/map.js"></script>
 
     </div>
 
     <!-- Run Scripts -->
-    <script src="popup.js"></script>
+    <script src="scripts/popup.js"></script>
 </body>
 </html>

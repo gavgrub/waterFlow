@@ -1,14 +1,14 @@
 import json
 
-# --- Config ---
+# Config
 input_file = "MDA_ADP_05_DrainageBasin_BassinDeDrainage.geojson"   # your source GeoJSON file
-name_substring = "SOUTH SASKATCHEWAN RIVER"      # string to search in "NameNom"
+name_substring = "SASKATCHEWAN"      # string to search in "NameNom"
 
-# --- Load the GeoJSON file ---
+# Load the GeoJSON file
 with open(input_file, 'r', encoding='utf-8') as f:
     data = json.load(f)
 
-# --- Filter and save features ---
+# Filter and save features
 count = 0
 for feature in data["features"]:
     name = feature["properties"].get("NameNom", "")

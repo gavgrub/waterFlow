@@ -1,0 +1,130 @@
+[
+  {
+    "folder": "1",
+    "rivers": [
+      {
+        "name": "South Saskatchewan River",
+        "wiki": "https://en.wikipedia.org/wiki/South_Saskatchewan_River"
+      }
+    ]
+  },
+  {
+    "folder": "2",
+    "rivers": [
+      {
+        "name": "Red Deer River",
+        "wiki": "https://en.wikipedia.org/wiki/Red_Deer_River"
+      },
+      {
+        "name": "Bow River 1",
+        "wiki": "https://en.wikipedia.org/wiki/Bow_River"
+      },
+      {
+        "name": "Bow River 2",
+        "wiki": "https://en.wikipedia.org/wiki/Bow_River"
+      },
+      {
+        "name": "Bow River 3",
+        "wiki": "https://en.wikipedia.org/wiki/Bow_River"
+      },
+      {
+        "name": "Oldman River",
+        "wiki": "https://en.wikipedia.org/wiki/Oldman_River"
+      },
+      {
+        "name": "Seven Persons Creek",
+        "wiki": "https://www.tourismmedicinehat.com/features/paddle-seven-persons"
+      }
+    ]
+  },
+  {
+    "folder": "3",
+    "rivers": [
+      {
+        "name": "Saint Mary River",
+        "wiki": "https://en.wikipedia.org/wiki/St._Mary_River_(Alberta–Montana)"
+      },
+      {
+        "name": "Belly River",
+        "wiki": "https://en.wikipedia.org/wiki/Belly_River"
+      },
+      {
+        "name": "Castle River",
+        "wiki": "https://www.albertaparks.ca/parks/south/castle-pp/information-facilities/camping/castle-river-bridge/"
+      },
+      {
+        "name": "Willow Creek",
+        "wiki": "https://www.albertaparks.ca/parks/south/willow-creek-pp/"
+      },
+      {
+        "name": "Livingstone River",
+        "wiki": "https://www.albertaparks.ca/parks/south/livingstone-falls-pra/information-facilities/camping/livingstone-falls/"
+      },
+      {
+        "name": "Crowsnest River 1",
+        "wiki": "https://en.wikipedia.org/wiki/Crowsnest_River"
+      },
+      {
+        "name": "Crowsnest River 2",
+        "wiki": "https://en.wikipedia.org/wiki/Crowsnest_River"
+      },
+      {
+        "name": "Little Bow River 1",
+        "wiki": "https://en.wikipedia.org/wiki/Little_Bow_River"
+      },
+      {
+        "name": "Little Bow River 2",
+        "wiki": "https://en.wikipedia.org/wiki/Little_Bow_River"
+      },
+      {
+        "name": "Little Bow River 3",
+        "wiki": "https://en.wikipedia.org/wiki/Little_Bow_River"
+      },
+      {
+        "name": "Little Bow River 4",
+        "wiki": "https://en.wikipedia.org/wiki/Little_Bow_River"
+      },
+      {
+        "name": "Little Bow River 5",
+        "wiki": "https://en.wikipedia.org/wiki/Little_Bow_River"
+      },
+      {
+        "name": "Little Bow River 6",
+        "wiki": "https://en.wikipedia.org/wiki/Little_Bow_River"
+      },
+      {
+        "name": "Little Bow River 7",
+        "wiki": "https://en.wikipedia.org/wiki/Little_Bow_River"
+      },
+      {
+        "name": "Kananaskis River",
+        "wiki": "https://en.wikipedia.org/wiki/Kananaskis_River"
+      },
+      {
+        "name": "Elbow River",
+        "wiki": "https://en.wikipedia.org/wiki/Elbow_River"
+      },
+      {
+        "name": "Highwood River",
+        "wiki": "https://en.wikipedia.org/wiki/Highwood_River"
+      },
+      {
+        "name": "Ross Creek",
+        "wiki": "https://www.albertadiscoverguide.com/site.cfm?grid=F4&number=20"
+      }
+    ]
+  },
+  {
+    "folder": "4",
+    "rivers": [
+      {
+        "name": "Sheep River",
+        "wiki": "https://en.wikipedia.org/wiki/Sheep_River_(Alberta)"
+      },
+      {
+        "name": "Waterton River",
+        "wiki": "https://en.wikipedia.org/wiki/Waterton_River"
+      }
+    ]
+  }
+]
