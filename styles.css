@@ -2,8 +2,8 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    color: #fff;
-    background-color: #212121;
+    color: #E0E0E0;
+    background-color: #121212;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 90%;
 }
@@ -41,7 +41,7 @@ a:hover {
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 10000;
   align-items: center;
   justify-content: center;
 }
@@ -84,4 +84,44 @@ a:hover {
 #settlementToggle,
 #reservoirToggle {
   vertical-align: middle;
+}
+
+select {
+  background-color: #E0E0E0;
+}
+
+button {
+  color: #000000;
+  background-color: #E0E0E0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #b4b4b4;
+}
+
+input {
+  color: #E0E0E0;
+  accent-color: #0077ff;
+}
+
+input:hover {
+  color: #b4b4b4;
+  accent-color: #0077ff;
+}
+
+/* Responsive styles, for phone */
+@media screen and (max-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .sidebar {
+    order: 2;
+  }
 }
