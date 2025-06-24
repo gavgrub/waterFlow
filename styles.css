@@ -82,7 +82,8 @@ a:hover {
 }
 
 #settlementToggle,
-#reservoirToggle {
+#reservoirToggle,
+#waterFlowToggle {
   vertical-align: middle;
 }
 

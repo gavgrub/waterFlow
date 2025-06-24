@@ -2,6 +2,9 @@
 // A lot of this is vibecode, unfortunately 😔
 // Forgive me, I can't code in js 🙏
 
+let currentIndex = 0
+let isDisplayingFlow = false
+
 // Colors
 const startColor = [0, 0, 255];
 const endColor = [255, 0, 0];
@@ -31,61 +34,89 @@ function interpolateColor(fromColor, toColor, t) {
 }
 
 // This function loads and displays GeoJSON data of the SSRSB tributaries up to a given degree
-async function loadTributaries(index) {
-    try {
-        // Clear previously loaded river layers from the map
-        riverLayer.forEach(layer => map.removeLayer(layer));
-        riverLayer = [];
+async function loadTributaries(index, displayFlow=false) {
+  try {
+    // Clear previously loaded river layers from the map
+    riverLayer.forEach(layer => map.removeLayer(layer));
+    riverLayer = [];
 
-        // Loop through each folder level up to the selected index
-        for (let i = 0; i <= index; i++) {
-            const entry = riversData[i];
-            if (!entry) continue;
+    // Loop through each folder level up to the selected index
+    for (let i = 0; i <= index; i++) {
+      const entry = riversData[i];
+      if (!entry) continue;
 
-            const { folder, rivers: riverData } = entry;
+      const { folder, rivers: riverData } = entry;
 
-            // Interpolate color for this level (for gradient effect)
-            const t = index === 0 ? 0 : i / index;  // avoid division by zero
-            const interpolatedColor = interpolateColor(startColor, endColor, t);
+      // Interpolate color for this level (for gradient effect)
+      const t = index === 0 ? 0 : i / index;  // avoid division by zero
+      const interpolatedColor = interpolateColor(startColor, endColor, t);
 
-            // Loop through each river in the current folder level
-            for (const river of riverData) {
-                // Construct the relative file path to the GeoJSON file
-                const url = `geodata/rivers/${folder}/${river.name}.geojson`;
+      // Loop through each river in the current folder level
+      for (const river of riverData) {
+        // Construct the relative file path to the GeoJSON file
+        const url = `geodata/rivers/${folder}/${river.name}.geojson`;
 
-                // Fetch the GeoJSON data for the river
-                const response = await fetch(url);
-                if (!response.ok) {
-                    console.warn(`Failed to load: ${url}`);
-                    continue;
-                }
-                const data = await response.json();
-
-                // Create and style the GeoJSON layer
-                const layer = L.geoJSON(data, {
-                    style: feature => ({
-                        color: interpolatedColor,
-                        weight: 3
-                    }),
-                    onEachFeature: (feature, layer) => {
-                        // Bind a popup with river name and Wikipedia link
-                        const popupContent = `
-                            <strong>${river.name.replace(/\s\d+$/, '')}</strong><br>
-                            <a href="${river.wiki}" target="_blank">Info</a>
-                        `;
-                        layer.bindPopup(popupContent);
-                    }
-                }).addTo(map);
-
-                // Store the layer for future removal
-                riverLayer.push(layer);
-            }
+        // Fetch the GeoJSON data for the river
+        const response = await fetch(url);
+        if (!response.ok) {
+          console.warn(`Failed to load: ${url}`);
+          continue;
         }
+        const data = await response.json();
 
-    } catch (err) {
-        // Log any errors that occur during loading
-        console.error(err);
+        // Create and style the GeoJSON layer
+        const layer = L.geoJSON(data, {
+          // 1) style is a function that returns an object
+          style: feature => {
+            // you can branch however you like...
+            if (displayFlow) {
+              return {
+                color: interpolatedColor,
+                weight: 3,
+                opacity: 0
+              };
+            } else {
+              return {
+                color: interpolatedColor,
+                weight: 3,
+                opacity: 1    // hide the line completely when you want invisible
+              };
+            }
+          },
+
+          // 2) comma here!
+          onEachFeature: (feature, layer) => {
+            // bind the popup
+            const popupContent = `
+              <strong>${river.name.replace(/\s\d+$/, '')}</strong><br>
+              <a href="${river.wiki}" target="_blank">Info</a>
+            `;
+            layer.bindPopup(popupContent);
+
+            // 3) only draw arrows if displayFlow is true
+            if (displayFlow) {
+              layer.setText('>', {
+                repeat:    true,
+                center:    false,
+                attributes: {
+                  fill:        interpolatedColor,
+                  offset:      7,
+                  'font-weight': 'bold',
+                  'font-size':   '24px',
+                }
+              });
+            }
+          }
+        }).addTo(map);
+
+        // Store the layer for future removal
+        riverLayer.push(layer);
+      }
     }
+
+  } catch (err) {
+      console.error(err);
+  }
 }
 
 // Load the rivers GeoJSON data
@@ -171,7 +202,8 @@ document.getElementById('tributarySlider').addEventListener('input', e => {
   // Slider value 1-based, convert to 0-based index
   const val = parseInt(e.target.value, 10) - 1; 
   if (val >= 0 && val < riversData.length) {
-    loadTributaries(val);
+    loadTributaries(val, isDisplayingFlow);
+    currentIndex = val
   }
 });
 
@@ -212,4 +244,14 @@ document.getElementById('reservoirToggle').addEventListener('change', function (
   } else {
     map.removeLayer(reservoirLayer);
   }
+});
+
+document.getElementById('waterFlowToggle').addEventListener('change', function () {
+  if (this.checked) {
+    isDisplayingFlow = true
+  } else {
+    isDisplayingFlow = false
+  } 
+  loadTributaries(currentIndex, isDisplayingFlow)
+
 });

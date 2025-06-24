@@ -11,6 +11,11 @@
 
     <!-- CSS for the UI -->
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Run Scripts -->
+    <script src="scripts/popup.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="scripts/leaflet.textpath.js"></script>
 </head>
 
 <body>
@@ -72,16 +77,13 @@
 
             <p><label>Display Settlements:<input type="checkbox" id="settlementToggle"></label></p>
             <p><label>Display Reservoirs:<input type="checkbox" id="reservoirToggle"></label></p>
+            <p><label>Display Water Flow:<input type="checkbox" id="waterFlowToggle"></label></p>
         </div>
 
         <!-- Setup the map  -->
         <div id="map"></div>
-        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
         <script src="scripts/map.js"></script>
 
     </div>
-
-    <!-- Run Scripts -->
-    <script src="scripts/popup.js"></script>
 </body>
 </html>
