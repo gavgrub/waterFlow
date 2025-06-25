@@ -135,6 +135,46 @@
       {
         "name": "Threehills Creek",
         "wiki": "https://threehillsgolfclub.ca/three-hills-creek-campground/"
+      },
+      {
+        "name": "Spray River 1",
+        "wiki": "https://en.wikipedia.org/wiki/Spray_River"
+      },
+      {
+        "name": "Spray River 2",
+        "wiki": "https://en.wikipedia.org/wiki/Spray_River"
+      },
+      {
+        "name": "Spray River 3",
+        "wiki": "https://en.wikipedia.org/wiki/Spray_River"
+      },
+      {
+        "name": "Raven River 1",
+        "wiki": "https://en.wikipedia.org/wiki/Raven_River"
+      },
+      {
+        "name": "Raven River 2",
+        "wiki": "https://en.wikipedia.org/wiki/Raven_River"
+      },
+      {
+        "name": "Medicine River",
+        "wiki": "https://en.wikipedia.org/wiki/Medicine_River_(Alberta)"
+      },
+      {
+        "name": "Racehorse Creek",
+        "wiki": "https://www.anglersatlas.com/place/826386/racehorse-creek"
+      },
+      {
+        "name": "Ghost River",
+        "wiki": "https://en.wikipedia.org/wiki/Ghost_River_(Alberta)"
+      },
+      {
+        "name": "Little Red Deer River",
+        "wiki": "https://en.wikipedia.org/wiki/Little_Red_Deer_River"
+      },
+      {
+        "name": "Cascade River",
+        "wiki": "https://en.wikipedia.org/wiki/Cascade_River_(Alberta)"
       }
     ]
   },
@@ -148,6 +188,18 @@
       {
         "name": "Waterton River",
         "wiki": "https://en.wikipedia.org/wiki/Waterton_River"
+      },
+      {
+        "name": "North Raven River 1",
+        "wiki": "https://en.wikipedia.org/wiki/North_Raven_River"
+      },
+      {
+        "name": "North Raven River 2",
+        "wiki": "https://en.wikipedia.org/wiki/North_Raven_River"
+      },
+      {
+        "name": "Dormer River",
+        "wiki": "https://en.wikipedia.org/wiki/Dormer_River"
       }
     ]
   }

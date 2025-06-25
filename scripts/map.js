@@ -2,6 +2,7 @@
 // A lot of this is vibecode, unfortunately 😔
 // Forgive me, I can't code in js 🙏
 
+let loadTributariesVersion = 0;
 let currentIndex = 0
 let isDisplayingFlow = false
 
@@ -35,28 +36,33 @@ function interpolateColor(fromColor, toColor, t) {
 
 // This function loads and displays GeoJSON data of the SSRSB tributaries up to a given degree
 async function loadTributaries(index, displayFlow=false) {
-  try {
-    // Clear previously loaded river layers from the map
-    riverLayer.forEach(layer => map.removeLayer(layer));
-    riverLayer = [];
+  const thisVersion = ++loadTributariesVersion;  // Increment and capture version
 
-    // Loop through each folder level up to the selected index
+  try {
+    // Clear existing layers only if this is the latest call
+    if (thisVersion === loadTributariesVersion) {
+      riverLayer.forEach(layer => map.removeLayer(layer));
+      riverLayer = [];
+    } else {
+      // This call is outdated, stop here
+      return;
+    }
+
     for (let i = 0; i <= index; i++) {
+      if (thisVersion !== loadTributariesVersion) return; // Abort if outdated
+
       const entry = riversData[i];
       if (!entry) continue;
 
       const { folder, rivers: riverData } = entry;
 
-      // Interpolate color for this level (for gradient effect)
-      const t = index === 0 ? 0 : i / index;  // avoid division by zero
+      const t = index === 0 ? 0 : i / index;
       const interpolatedColor = interpolateColor(startColor, endColor, t);
 
-      // Loop through each river in the current folder level
       for (const river of riverData) {
-        // Construct the relative file path to the GeoJSON file
-        const url = `geodata/rivers/${folder}/${river.name}.geojson`;
+        if (thisVersion !== loadTributariesVersion) return; // Abort if outdated
 
-        // Fetch the GeoJSON data for the river
+        const url = `geodata/rivers/${folder}/${river.name}.geojson`;
         const response = await fetch(url);
         if (!response.ok) {
           console.warn(`Failed to load: ${url}`);
@@ -64,60 +70,46 @@ async function loadTributaries(index, displayFlow=false) {
         }
         const data = await response.json();
 
-        // Create and style the GeoJSON layer
+        if (thisVersion !== loadTributariesVersion) return; // Abort if outdated
+
         const layer = L.geoJSON(data, {
-          // 1) style is a function that returns an object
           style: feature => {
-            // you can branch however you like...
             if (displayFlow) {
-              return {
-                color: interpolatedColor,
-                weight: 3,
-                opacity: 0
-              };
+              return { color: interpolatedColor, weight: 10, opacity: 0 };
             } else {
-              return {
-                color: interpolatedColor,
-                weight: 3,
-                opacity: 1    // hide the line completely when you want invisible
-              };
+              return { color: interpolatedColor, weight: 3, opacity: 1 };
             }
           },
-
-          // 2) comma here!
           onEachFeature: (feature, layer) => {
-            // bind the popup
             const popupContent = `
               <strong>${river.name.replace(/\s\d+$/, '')}</strong><br>
               <a href="${river.wiki}" target="_blank">Info</a>
             `;
             layer.bindPopup(popupContent);
 
-            // 3) only draw arrows if displayFlow is true
             if (displayFlow) {
               layer.setText('>', {
-                repeat:    true,
-                center:    false,
+                repeat: true,
+                center: false,
                 attributes: {
-                  fill:        interpolatedColor,
-                  offset:      7,
+                  fill: interpolatedColor,
+                  offset: 7,
                   'font-weight': 'bold',
-                  'font-size':   '24px',
+                  'font-size': '24px',
                 }
               });
             }
           }
         }).addTo(map);
 
-        // Store the layer for future removal
         riverLayer.push(layer);
       }
     }
-
   } catch (err) {
-      console.error(err);
+    console.error(err);
   }
 }
+
 
 // Load the rivers GeoJSON data
 fetch('geodata/rivers/data.json')
