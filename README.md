@@ -28,7 +28,7 @@ You are able to access this program from the address https://gavgrub.github.io/w
 ## Author
 Created by Gavin Grubert.
 Contact: grubertgavin@gmail.com 
-GitHub: https://github.com/gavgrub.
+GitHub: https://github.com/gavgrub
 
 ## Legal
 I have licensed this project under CC BY-NC-SA 4.0, find the details here:
