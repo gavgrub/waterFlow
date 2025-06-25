@@ -13,7 +13,7 @@ cd waterFlow
 
 ## Running
 
-# Locally
+### Locally
 Navigate to powershell and run the following:
 ```bash
 python -m http.server
@@ -22,7 +22,7 @@ From there, you will be able to access the server on a web browser from the addr
 
 You can also open index.html in your browser, however, doing so will beak JavaScript functionality, disabling most features of the app.
 
-# Online
+### Online
 You are able to access this program from the address https://gavgrub.github.io/waterFlow/.
 
 ## Author
