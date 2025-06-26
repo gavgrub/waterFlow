@@ -189,7 +189,6 @@ map.createPane('background');
 map.getPane('background').style.zIndex = 200;
 
 // Event Listeners for UI controls
-
 document.getElementById('tributarySlider').addEventListener('input', e => {
   // Slider value 1-based, convert to 0-based index
   const val = parseInt(e.target.value, 10) - 1; 
